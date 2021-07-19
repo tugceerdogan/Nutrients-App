@@ -1,17 +1,25 @@
 package com.example.besinlerkitabi.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.besinlerkitabi.model.Besin
+import com.example.besinlerkitabi.service.BesinDatabase
+import kotlinx.coroutines.launch
 
-class BesinDetayiViewModel : ViewModel() {
+class BesinDetayiViewModel(application: Application) : BaseViewModel(application) {
 
     val besinLiveData = MutableLiveData<Besin>()
 
-    fun roomVerisiniAl(){
+    fun roomVerisiniAl(uuid : Int){
 
-        val muz = Besin("Muz","100","10","5","1","www.test.com")
-        besinLiveData.value = muz
+        launch{
+
+            val dao = BesinDatabase(getApplication()).besinDao()
+            val besin = dao.getBesin(uuid)
+            besinLiveData.value = besin
+        }
+
 
     }
 

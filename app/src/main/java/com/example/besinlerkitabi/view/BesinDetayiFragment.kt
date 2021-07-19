@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.besinlerkitabi.R
+import com.example.besinlerkitabi.util.gorselIndir
+import com.example.besinlerkitabi.util.placeholderYap
 import com.example.besinlerkitabi.viewmodel.BesinDetayiViewModel
 import kotlinx.android.synthetic.main.besin_recycler_view.*
 import kotlinx.android.synthetic.main.fragment_besin_detayi.*
@@ -30,24 +32,19 @@ class BesinDetayiFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_besin_detayi, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(BesinDetayiViewModel::class.java )
-        viewModel.roomVerisiniAl()
-
-
-
         // gelen argumanı kontrol etme, alma :
         arguments?.let{
             besinId = BesinDetayiFragmentArgs.fromBundle(it).besinId
-            println(besinId)
-
         }
+
+        viewModel = ViewModelProviders.of(this).get(BesinDetayiViewModel::class.java )
+        viewModel.roomVerisiniAl(besinId)
 
 
         observeLiveData()
@@ -58,7 +55,12 @@ class BesinDetayiFragment : Fragment() {
     fun observeLiveData(){
 
         viewModel.besinLiveData.observe(viewLifecycleOwner, Observer{ besin->
+
             besin?.let{
+                context?.let{
+                    detayResmi.gorselIndir(besin.besinGorsel, placeholderYap(it))
+                }
+
                 detayAdi.text = it.besinAd
                 detayKalori.text = it.besinKalori
                 detayKarbonhidrat.text = it.besinKarbonhidrat

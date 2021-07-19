@@ -21,7 +21,6 @@ interface BesinDAO {
     //List<Long> döndürür -> nedeni id ler
 
 
-
     @Query("SELECT*FROM besin")
     suspend fun getAllBesin() : List<Besin>
 

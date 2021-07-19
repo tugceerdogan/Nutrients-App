@@ -31,15 +31,14 @@ class BesinRecyclerAdapter(val besinListesi : ArrayList<Besin>) : RecyclerView.A
         holder.itemView.besinKalorisi.text = besinListesi.get(position).besinKalori
         //gorsel eklenecek :
 
+
+        //bir satıra tıklayınca ne olacak :
         holder.itemView.setOnClickListener {
-            val action = BesinListesiFragmentDirections.actionBesinListesiFragmentToBesinDetayiFragment(0)
+            val action = BesinListesiFragmentDirections.actionBesinListesiFragmentToBesinDetayiFragment(besinListesi.get(position).uuid)
             Navigation.findNavController(it).navigate(action)
         }
 
-        //holder.itemView.besinGorsel.gorselIndir(besinListesi.get(position).besinGorsel, placeholderYap(holder.itemView.context))
-
         holder.itemView.besinResmi.gorselIndir(besinListesi.get(position).besinGorsel,placeholderYap(holder.itemView.context))
-
 
     }
 

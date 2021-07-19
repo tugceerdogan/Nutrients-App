@@ -16,8 +16,8 @@ import kotlinx.android.synthetic.main.fragment_besin_listesi.*
 
 class BesinListesiFragment : Fragment() {
 
-    //view model obje oluşturma :
-    private lateinit var viewModel : BesinListesiViewModel
+
+    private lateinit var viewModel : BesinListesiViewModel   //view model obje oluşturma
     private val recyclerBesinAdapter = BesinRecyclerAdapter(arrayListOf())
 
 
@@ -31,24 +31,19 @@ class BesinListesiFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_besin_listesi, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //butona basınca besin detay fragmenta gitme olayı :
-        //besin_listesi_button.setOnClickListener {
-        //    val action = BesinListesiFragmentDirections.actionBesinListesiFragmentToBesinDetayiFragment(3)
-        //    Navigation.findNavController(it).navigate(action)
 
-       // }
-
-
-        viewModel = ViewModelProviders.of(this).get(BesinListesiViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(BesinListesiViewModel::class.java)//view model ve fragment baglama satırı
         viewModel.refreshData()
 
+
+        //recyclerview baglama :
         besinListesiRecyclerView.layoutManager = LinearLayoutManager(context)
         besinListesiRecyclerView.adapter = recyclerBesinAdapter
 
@@ -69,15 +64,17 @@ class BesinListesiFragment : Fragment() {
 
     }
 
+
+    //Live data nın observable özeeliğini kullanmak için :
     fun observeLiveData(){
 
-        viewModel.besinler.observe(viewLifecycleOwner, Observer {besinler ->
+        viewModel.besinler.observe(viewLifecycleOwner, Observer {besinler ->//viewLifecycleOwner yerine this de diyebiliriz.
             besinler?.let{
                 besinListesiRecyclerView.visibility = View.VISIBLE
-                recyclerBesinAdapter.besinListesiniGuncelle(besinler)
+                recyclerBesinAdapter.besinListesiniGuncelle(besinler)//observe ettiğim veriyi yeni Besin Listem yaptım yani
 
             }
-        })
+        })//view model daki besinleri gözlemledim ve güncelledim.
         
         viewModel.besinHataMesaji.observe(viewLifecycleOwner,Observer {hata->
             hata?.let{
