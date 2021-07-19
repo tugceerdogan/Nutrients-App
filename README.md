@@ -16,4 +16,6 @@ Technologies used:
 
 ![#c5f015](https://via.placeholder.com/15/c5f015/000000?text=+) RXJava
 
+![#c5f015](https://via.placeholder.com/15/c5f015/000000?text=+) Room
+
 
